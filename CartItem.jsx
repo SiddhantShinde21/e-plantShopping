@@ -1,4 +1,4 @@
-
+```jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
@@ -6,7 +6,10 @@ import './App.css';
 
 export default function CartItem({ onContinueShopping }) {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
+
+  const cartItems = useSelector(
+    (state) => state.cart.items
+  );
 
   const totalQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -53,20 +56,36 @@ export default function CartItem({ onContinueShopping }) {
       <h1>Shopping Cart</h1>
 
       {cartItems.length === 0 ? (
-        <p>Your cart is empty. Start shopping!</p>
+        <div>
+          <p>Your cart is empty.</p>
+          <button
+            className="primary-button"
+            onClick={onContinueShopping}
+          >
+            Continue Shopping
+          </button>
+        </div>
       ) : (
         <>
           <p>Total plants in cart: {totalQuantity}</p>
 
           {cartItems.map((item) => (
             <div className="cart-item" key={item.name}>
-              <img src={item.image} alt={item.name} />
+              <img
+                src={item.image}
+                alt={item.name}
+              />
 
-              <div>
+              <div className="cart-item-details">
                 <h3>{item.name}</h3>
-                <p>Unit price: ${item.price.toFixed(2)}</p>
+
                 <p>
-                  Subtotal: ${(item.price * item.quantity).toFixed(2)}
+                  Unit price: ${item.price.toFixed(2)}
+                </p>
+
+                <p>
+                  Subtotal: $
+                  {(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
 
@@ -98,7 +117,9 @@ export default function CartItem({ onContinueShopping }) {
           ))}
 
           <div className="cart-summary">
-            <h2>Total Amount: ${totalCost.toFixed(2)}</h2>
+            <h2>
+              Total Amount: ${totalCost.toFixed(2)}
+            </h2>
 
             <button
               className="primary-button"
@@ -107,15 +128,16 @@ export default function CartItem({ onContinueShopping }) {
               Checkout
             </button>
           </div>
+
+          <button
+            className="primary-button"
+            onClick={onContinueShopping}
+          >
+            Continue Shopping
+          </button>
         </>
       )}
-
-      <button
-        className="primary-button"
-        onClick={onContinueShopping}
-      >
-        Continue Shopping
-      </button>
     </div>
   );
 }
+```
