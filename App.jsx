@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import './App.css';
 import AboutUs from './AboutUs';
@@ -5,18 +6,17 @@ import ProductList from './ProductList';
 import CartItem from './CartItem';
 
 export default function App() {
-  const [page, setPage] = useState('landing');
+  const [page, setPage] = useState('home');
 
-  if (page === 'products') {
+  if (page === 'plants') {
     return (
       <div>
         <nav className="navbar">
-          <h1>🌿 Paradise Nursery</h1>
-          <div className="nav-links">
-            <button onClick={() => setPage('landing')}>Home</button>
-            <button onClick={() => setPage('products')}>Plants</button>
+          <h2>Paradise Nursery</h2>
+          <div>
+            <button onClick={() => setPage('home')}>Home</button>
+            <button onClick={() => setPage('plants')}>Plants</button>
             <button onClick={() => setPage('cart')}>Cart</button>
-            <button onClick={() => setPage('about')}>About Us</button>
           </div>
         </nav>
         <ProductList />
@@ -28,11 +28,11 @@ export default function App() {
     return (
       <div>
         <nav className="navbar">
-          <h1>🌿 Paradise Nursery</h1>
-          <div className="nav-links">
-            <button onClick={() => setPage('landing')}>Home</button>
-            <button onClick={() => setPage('products')}>Continue Shopping</button>
-            <button onClick={() => setPage('about')}>About Us</button>
+          <h2>Paradise Nursery</h2>
+          <div>
+            <button onClick={() => setPage('home')}>Home</button>
+            <button onClick={() => setPage('plants')}>Plants</button>
+            <button onClick={() => setPage('cart')}>Cart</button>
           </div>
         </nav>
         <CartItem />
@@ -40,34 +40,19 @@ export default function App() {
     );
   }
 
-  if (page === 'about') {
-    return (
-      <div>
-        <nav className="navbar">
-          <h1>🌿 Paradise Nursery</h1>
-          <div className="nav-links">
-            <button onClick={() => setPage('landing')}>Home</button>
-            <button onClick={() => setPage('products')}>Plants</button>
-            <button onClick={() => setPage('cart')}>Cart</button>
-          </div>
-        </nav>
-        <AboutUs />
-      </div>
-    );
-  }
-
   return (
-    <main className="landing-page">
+    <div className="landing-page">
       <div className="landing-content">
-        <h1>🌿 Paradise Nursery</h1>
-        <p>
-          Bring nature home. Discover beautiful indoor plants, air-purifying
-          greens, and succulents to brighten every space.
-        </p>
-        <button className="primary-button" onClick={() => setPage('products')}>
+        <h1>Welcome to Paradise Nursery</h1>
+        <p>Bring nature home with our beautiful collection of plants.</p>
+        <button
+          className="primary-button"
+          onClick={() => setPage('plants')}
+        >
           Get Started
         </button>
+        <AboutUs />
       </div>
-    </main>
+    </div>
   );
 }
