@@ -1,4 +1,4 @@
-
+```jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
@@ -42,6 +42,7 @@ const plantsArray = [
 
 export default function ProductList() {
   const dispatch = useDispatch();
+
   const cartItems = useSelector((state) => state.cart.items);
 
   const addedToCart = {};
@@ -49,43 +50,40 @@ export default function ProductList() {
     addedToCart[item.name] = true;
   });
 
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-
   return (
     <div className="page-container">
-      <nav className="navbar">
-        <h2>Paradise Nursery</h2>
-        <div>
-          <a href="#" onClick={(event) => { event.preventDefault(); window.location.reload(); }}>Home</a>
-          <a href="#plants">Plants</a>
-          <a href="#cart" className="cart-icon">
-            🛒 Cart <span className="cart-quantity">{totalQuantity}</span>
-          </a>
-        </div>
-      </nav>
-
       <h1 id="plants">Our Plants</h1>
 
       {plantsArray.map((category) => (
-        <section className="plant-category" key={category.category}>
+        <section
+          className="plant-category"
+          key={category.category}
+        >
           <h2>{category.category}</h2>
 
           <div className="product-list">
             {category.plants.map((plant) => (
-              <article className="product-card" key={plant.name}>
-                <img src={plant.image} alt={plant.name} />
+              <article
+                className="product-card"
+                key={plant.name}
+              >
+                <img
+                  src={plant.image}
+                  alt={plant.name}
+                />
+
                 <h3>{plant.name}</h3>
+
                 <p>${plant.price.toFixed(2)}</p>
 
                 <button
                   className="primary-button"
-                  disabled={addedToCart[plant.name]}
+                  disabled={Boolean(addedToCart[plant.name])}
                   onClick={() => dispatch(addItem(plant))}
                 >
-                  {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                  {addedToCart[plant.name]
+                    ? 'Added to Cart'
+                    : 'Add to Cart'}
                 </button>
               </article>
             ))}
@@ -95,3 +93,4 @@ export default function ProductList() {
     </div>
   );
 }
+```
