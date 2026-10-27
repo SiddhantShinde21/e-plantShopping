@@ -1,22 +1,7 @@
-
-import React from 'react';
-
-export default function AboutUs() {
-  return (
-    <div className="about-us-container">
-      <h2>About Us</h2>
-      <p>
-        Welcome to Paradise Nursery, your destination for beautiful,
-        healthy plants that bring nature into your home.
-      </p>
-      <p>
-        We offer a wide selection of indoor plants, succulents, and
-        air-purifying plants to help you create a greener living space.
-      </p>
-      <p>
-        Our mission is to make plant shopping simple and enjoyable
-        while helping everyone connect with nature.
-      </p>
-    </div>
-  );
-}
+const AboutUs = () => (
+  <div className="about-us">
+    <h2>About Paradise Nursery</h2>
+    <p>Paradise Nursery is a family-run nursery dedicated to bringing nature into your home. We grow and hand-pick healthy, beautiful houseplants and offer care tips so every plant thrives. Our mission is to make homes greener, calmer and more beautiful.</p>
+  </div>
+);
+export default AboutUs;
