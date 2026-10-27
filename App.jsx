@@ -6,53 +6,57 @@ import ProductList from './ProductList';
 import CartItem from './CartItem';
 
 export default function App() {
-  const [page, setPage] = useState('home');
+  const [showProductList, setShowProductList] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
-  if (page === 'plants') {
-    return (
-      <div>
-        <nav className="navbar">
-          <h2>Paradise Nursery</h2>
-          <div>
-            <button onClick={() => setPage('home')}>Home</button>
-            <button onClick={() => setPage('plants')}>Plants</button>
-            <button onClick={() => setPage('cart')}>Cart</button>
-          </div>
-        </nav>
-        <ProductList />
-      </div>
-    );
-  }
+  const handleGetStartedClick = () => {
+    setShowProductList(true);
+    setShowCart(false);
+  };
 
-  if (page === 'cart') {
+  const handleHomeClick = () => {
+    setShowProductList(false);
+    setShowCart(false);
+  };
+
+  const handleCartClick = () => {
+    setShowCart(true);
+    setShowProductList(false);
+  };
+
+  if (!showProductList && !showCart) {
     return (
-      <div>
-        <nav className="navbar">
-          <h2>Paradise Nursery</h2>
-          <div>
-            <button onClick={() => setPage('home')}>Home</button>
-            <button onClick={() => setPage('plants')}>Plants</button>
-            <button onClick={() => setPage('cart')}>Cart</button>
-          </div>
-        </nav>
-        <CartItem />
+      <div className="background-image">
+        <div className="landing-content">
+          <h1>Welcome to Paradise Nursery</h1>
+          <p>
+            Discover beautiful plants to bring nature into your home.
+          </p>
+          <button
+            className="primary-button"
+            onClick={handleGetStartedClick}
+          >
+            Get Started
+          </button>
+          <AboutUs />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="landing-page">
-      <div className="landing-content">
-        <h1>Welcome to Paradise Nursery</h1>
-        <p>Bring nature home with our beautiful collection of plants.</p>
-        <button
-          className="primary-button"
-          onClick={() => setPage('plants')}
-        >
-          Get Started
-        </button>
-        <AboutUs />
-      </div>
+    <div>
+      <nav className="navbar">
+        <h2>Paradise Nursery</h2>
+        <div>
+          <button onClick={handleHomeClick}>Home</button>
+          <button onClick={handleGetStartedClick}>Plants</button>
+          <button onClick={handleCartClick}>Cart</button>
+        </div>
+      </nav>
+
+      {showProductList && <ProductList />}
+      {showCart && <CartItem />}
     </div>
   );
 }
