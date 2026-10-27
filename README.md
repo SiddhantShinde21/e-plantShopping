@@ -32,4 +32,4 @@ Paradise Nursery is an online plant shopping application where users can explore
 Siddhant Shinde
 
 ## Repository
-https://github.com/SiddhantShinde21/paradise-nursery
+https://github.com/SiddhantShinde21/e-plantShopping
