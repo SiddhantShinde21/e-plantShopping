@@ -29,9 +29,7 @@ export default function App() {
       <div className="background-image">
         <div className="landing-content">
           <h1>Welcome to Paradise Nursery</h1>
-          <p>
-            Discover beautiful plants to bring nature into your home.
-          </p>
+          <p>Discover beautiful plants to bring nature into your home.</p>
           <button
             className="primary-button"
             onClick={handleGetStartedClick}
@@ -56,7 +54,9 @@ export default function App() {
       </nav>
 
       {showProductList && <ProductList />}
-      {showCart && <CartItem />}
+      {showCart && (
+        <CartItem onContinueShopping={handleGetStartedClick} />
+      )}
     </div>
   );
 }
