@@ -1,48 +1,34 @@
+
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
 
-const plantCategories = [
-  {
-    name: 'Air Purifying Plants',
-    plants: [
-      { id: 1, name: 'Snake Plant', price: 18, image: 'https://images.unsplash.com/photo-1593482892290-f54927ae2b66?auto=format&fit=crop&w=500&q=80' },
-      { id: 2, name: 'Peace Lily', price: 22, image: 'https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?auto=format&fit=crop&w=500&q=80' },
-      { id: 3, name: 'Spider Plant', price: 15, image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c0a4?auto=format&fit=crop&w=500&q=80' },
-    ],
-  },
-  {
-    name: 'Succulents',
-    plants: [
-      { id: 4, name: 'Aloe Vera', price: 12, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80' },
-      { id: 5, name: 'Echeveria', price: 14, image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&w=500&q=80' },
-      { id: 6, name: 'Jade Plant', price: 16, image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=500&q=80' },
-    ],
-  },
-  {
-    name: 'Low-Light Plants',
-    plants: [
-      { id: 7, name: 'ZZ Plant', price: 20, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80' },
-      { id: 8, name: 'Pothos', price: 17, image: 'https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=500&q=80' },
-      { id: 9, name: 'Monstera', price: 28, image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=500&q=80' },
-    ],
-  },
+const plants = [
+  { id: 1, name: 'Snake Plant', price: 15, category: 'Air Purifying', image: 'https://images.unsplash.com/photo-1593482892290-f54927ae2b7b?w=400' },
+  { id: 2, name: 'Peace Lily', price: 18, category: 'Air Purifying', image: 'https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?w=400' },
+  { id: 3, name: 'Spider Plant', price: 12, category: 'Air Purifying', image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c333?w=400' },
+  { id: 4, name: 'Aloe Vera', price: 10, category: 'Succulents', image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' },
+  { id: 5, name: 'Jade Plant', price: 14, category: 'Succulents', image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400' },
+  { id: 6, name: 'Echeveria', price: 11, category: 'Succulents', image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400' },
+  { id: 7, name: 'Monstera', price: 25, category: 'Indoor Plants', image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400' },
+  { id: 8, name: 'Rubber Plant', price: 22, category: 'Indoor Plants', image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' },
+  { id: 9, name: 'Areca Palm', price: 20, category: 'Indoor Plants', image: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?w=400' },
 ];
 
 export default function ProductList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const categories = [...new Set(plants.map((plant) => plant.category))];
 
   return (
-    <main className="page-container">
-      <h2>Discover Your Perfect Plant</h2>
-      <p>Bring a little more green into your life.</p>
+    <div className="page-container">
+      <h1>Our Plants</h1>
 
-      {plantCategories.map((category) => (
-        <section className="plant-category" key={category.name}>
-          <h2>{category.name}</h2>
-          <div className="plant-grid">
-            {category.plants.map((plant) => {
+      {categories.map((category) => (
+        <section className="plant-category" key={category}>
+          <h2>{category}</h2>
+          <div className="plant-list">
+            {plants.filter((plant) => plant.category === category).map((plant) => {
               const inCart = cartItems.some((item) => item.id === plant.id);
 
               return (
@@ -51,6 +37,7 @@ export default function ProductList() {
                   <h3>{plant.name}</h3>
                   <p>${plant.price.toFixed(2)}</p>
                   <button
+                    className="primary-button"
                     disabled={inCart}
                     onClick={() => dispatch(addItem(plant))}
                   >
@@ -62,6 +49,6 @@ export default function ProductList() {
           </div>
         </section>
       ))}
-    </main>
+    </div>
   );
 }
