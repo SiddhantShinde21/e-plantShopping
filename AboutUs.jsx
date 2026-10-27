@@ -1,21 +1,22 @@
+
 import React from 'react';
 
 export default function AboutUs() {
   return (
-    <section className="about-us">
-      <h2>About Paradise Nursery</h2>
+    <div className="about-us-container">
+      <h2>About Us</h2>
       <p>
-        Paradise Nursery is your destination for beautiful, healthy plants
-        that bring nature into your home and garden.
+        Welcome to Paradise Nursery, your destination for beautiful,
+        healthy plants that bring nature into your home.
       </p>
       <p>
-        We offer a carefully selected collection of indoor plants, succulents,
-        and air-purifying plants to help create a greener, happier space.
+        We offer a wide selection of indoor plants, succulents, and
+        air-purifying plants to help you create a greener living space.
       </p>
       <p>
-        Our mission is to make plant shopping simple, enjoyable, and accessible
-        to everyone.
+        Our mission is to make plant shopping simple and enjoyable
+        while helping everyone connect with nature.
       </p>
-    </section>
+    </div>
   );
 }
