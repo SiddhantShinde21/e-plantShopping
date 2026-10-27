@@ -1,96 +1,58 @@
-```jsx
-import React from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from './CartSlice';
-import './App.css';
+import { addItem } from './CartSlice.jsx';
+import CartItem from './CartItem.jsx';
 
-const plantsArray = [
-  {
-    category: 'Air Purifying Plants',
-    plants: [
-      { name: 'Snake Plant', price: 15, image: 'https://images.unsplash.com/photo-1593482892290-f54927ae2b7b?w=400' },
-      { name: 'Peace Lily', price: 18, image: 'https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?w=400' },
-      { name: 'Spider Plant', price: 12, image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c333?w=400' },
-      { name: 'Boston Fern', price: 16, image: 'https://images.unsplash.com/photo-1597055181300-c6f4a9b7c1a1?w=400' },
-      { name: 'Areca Palm', price: 20, image: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?w=400' },
-      { name: 'Rubber Plant', price: 22, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' }
-    ]
-  },
-  {
-    category: 'Succulents',
-    plants: [
-      { name: 'Aloe Vera', price: 10, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' },
-      { name: 'Jade Plant', price: 14, image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400' },
-      { name: 'Echeveria', price: 11, image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400' },
-      { name: 'Burro Tail', price: 13, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' },
-      { name: 'Zebra Haworthia', price: 12, image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400' },
-      { name: 'String of Pearls', price: 17, image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400' }
-    ]
-  },
-  {
-    category: 'Indoor Plants',
-    plants: [
-      { name: 'Monstera', price: 25, image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400' },
-      { name: 'Fiddle Leaf Fig', price: 28, image: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400' },
-      { name: 'Calathea', price: 21, image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400' },
-      { name: 'Dracaena', price: 19, image: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?w=400' },
-      { name: 'Parlor Palm', price: 18, image: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?w=400' },
-      { name: 'Chinese Evergreen', price: 23, image: 'https://images.unsplash.com/photo-1597055181300-c6f4a9b7c1a1?w=400' }
-    ]
-  }
+const img = (s) => `https://picsum.photos/seed/${encodeURIComponent(s)}/200`;
+const mk = (names, prices) => names.map((n, i) => ({ name: n, image: img(n), cost: prices[i] }));
+
+const categories = [
+  { category: 'Air Purifying Plants', plants: mk(['Snake Plant','Spider Plant','Peace Lily','Boston Fern','Rubber Plant','Aloe Vera'], [15,12,18,14,20,10]) },
+  { category: 'Aromatic Plants', plants: mk(['Lavender','Jasmine','Rosemary','Mint','Lemon Balm','Basil'], [16,22,13,8,11,9]) },
+  { category: 'Low Maintenance Plants', plants: mk(['ZZ Plant','Pothos','Cactus','Jade Plant','Succulent Mix','Money Tree'], [25,10,7,14,19,30]) },
 ];
 
-export default function ProductList() {
+export default function ProductList({ onHome }) {
   const dispatch = useDispatch();
-
-  const cartItems = useSelector((state) => state.cart.items);
-
-  const addedToCart = {};
-  cartItems.forEach((item) => {
-    addedToCart[item.name] = true;
-  });
+  const items = useSelector((s) => s.cart.items);
+  const [showCart, setShowCart] = useState(false);
+  const totalCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const isAdded = (name) => items.some((i) => i.name === name);
 
   return (
-    <div className="page-container">
-      <h1 id="plants">Our Plants</h1>
-
-      {plantsArray.map((category) => (
-        <section
-          className="plant-category"
-          key={category.category}
-        >
-          <h2>{category.category}</h2>
-
-          <div className="product-list">
-            {category.plants.map((plant) => (
-              <article
-                className="product-card"
-                key={plant.name}
-              >
-                <img
-                  src={plant.image}
-                  alt={plant.name}
-                />
-
-                <h3>{plant.name}</h3>
-
-                <p>${plant.price.toFixed(2)}</p>
-
-                <button
-                  className="primary-button"
-                  disabled={Boolean(addedToCart[plant.name])}
-                  onClick={() => dispatch(addItem(plant))}
-                >
-                  {addedToCart[plant.name]
-                    ? 'Added to Cart'
-                    : 'Add to Cart'}
-                </button>
-              </article>
-            ))}
+    <div>
+      <div className="navbar">
+        <div><strong>Paradise Nursery</strong></div>
+        <div>
+          <a onClick={onHome}>Home</a>
+          <a onClick={() => setShowCart(false)}>Plants</a>
+          <a onClick={() => setShowCart(true)}>Cart</a>
+        </div>
+        <div className="cart-icon" onClick={() => setShowCart(true)}>
+          🛒<span className="cart-count">{totalCount}</span>
+        </div>
+      </div>
+      {showCart ? (
+        <CartItem onContinueShopping={() => setShowCart(false)} />
+      ) : (
+        categories.map((c) => (
+          <div className="category" key={c.category}>
+            <h2>{c.category}</h2>
+            <div className="product-grid">
+              {c.plants.map((p) => (
+                <div className="product-card" key={p.name}>
+                  <img src={p.image} alt={p.name} />
+                  <h3>{p.name}</h3>
+                  <p>${p.cost}</p>
+                  <button disabled={isAdded(p.name)} onClick={() => dispatch(addItem(p))}>
+                    {isAdded(p.name) ? 'Added' : 'Add to Cart'}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-        </section>
-      ))}
+        ))
+      )}
     </div>
   );
 }
-```
